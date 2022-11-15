@@ -1,20 +1,38 @@
-import { ffmpeg } from "https://deno.land/x/fast_forward@0.1.6/mod.ts";
+// import { ffmpeg } from "https://raw.githubusercontent.com/notTJ/deno-fast-forward/rescore/mod.ts";
+import { ffmpeg } from "../../deno-fast-forward/mod.ts";
 
+/*
+Steps
+1. trim video and track
+2. extract movie's Front Channel audio from
+3. use ffmpeg's amix command to combine the FC track and the music track
+4. recombine new audio file + movie
+*/
 
-
-await ffmpeg("https://www.w3schools.com/html/mov_bbb.mp4")
+// music track
+await ffmpeg("../fixtures/ILikeIt.flac")
+    // .binary("c:/Program Files/ffmpeg/ffmpeg.exe")
     // Global encoding options (applied to all outputs).
-    .audioBitrate("192k")
-    .videoBitrate("1M")
-    .width(480)
-    .height(640)
+    // .audioBitrate("192k")
+    // .videoBitrate("1M")
+    .noInputVideo()
+    // .inputArgs()
     // Output 1.
-    .output("output.mp4")
-    .audioCodec("aac")
-    .videoCodec("libx264")
-    // Output 2.
-    .output("output.webm")
-    .audioCodec("libvorbis")
-    .videoCodec("libvpx-vp9")
+    .output("../fixtures/ILikeIt-cut.mp3")
+    // .audioCodec("flac")
+    .override(true)
     // Start encoding.
     .encode();
+
+const rescoreConfig: any = {
+    movie: {
+        name: "",
+        start: "",
+        end: ""
+    },
+    track: {
+        name: "",
+        start: "",
+        end: ""
+    }
+};
