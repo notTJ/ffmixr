@@ -10,7 +10,7 @@ Steps
 */
 
 // music track
-await ffmpeg("../fixtures/ILikeIt.flac")
+const trackCut = await ffmpeg("../fixtures/ILikeIt.flac")
     // .binary("c:/Program Files/ffmpeg/ffmpeg.exe")
     // Global encoding options (applied to all outputs).
     // .audioBitrate("192k")
@@ -19,6 +19,8 @@ await ffmpeg("../fixtures/ILikeIt.flac")
     // .inputArgs()
     // Output 1.
     .output("../fixtures/ILikeIt-cut.mp3")
+    .start("00:00:04.5")
+    .end("00:01:22.0")
     // .audioCodec("flac")
     .override(true)
     // Start encoding.
