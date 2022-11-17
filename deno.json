@@ -1,4 +1,11 @@
 {
+  "tasks": {
+    "rescore": "deno run --allow-run --allow-read --allow-write src/rescore.ts",
+    "probe-zombieland": "ffprobe -hide_banner -print_format json -show_format -show_streams ./fixtures/Zombieland.mkv",
+    "ffmpeg-zombieland": "ffmpeg -hide_banner -i \"./fixtures/Zombieland.mkv\" -progress - -y -vf scale=854:480 -ss 00:00:00 -to 00:00:5 \"./fixtures/Zombieland-cut-480.mkv\"",
+    "probe-ilikeit": "",
+    "ffmpeg-ilikelit": "ffmpeg -hide_banner -vn -i ./fixtures/ILikeIt.flac -progress - -y -ss 00:00:04.5 -to 00:00:45.0 ./fixtures/ILikeIt-cut.mp3"
+  },
   "compilerOptions": {
     "allowJs": true,
     "lib": ["deno.window"],
@@ -22,7 +29,7 @@
       "exclude": []
     },
     "options": {
-      "useTabs": true,
+      "useTabs": false,
       "lineWidth": 80,
       "indentWidth": 2,
       "singleQuote": true,
