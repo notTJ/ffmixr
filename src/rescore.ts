@@ -1,6 +1,7 @@
 // import { ffmpeg } from "https://raw.githubusercontent.com/notTJ/deno-fast-forward/rescore/mod.ts";
-import {Resolution} from "../../deno-fast-forward/mod.ts";
-import {createFFmpegWithDefaultListeners} from "./default-configuration.ts";
+import { Resolution } from '../../deno-fast-forward/mod.ts';
+import { createFFmpegWithDefaultListeners } from './default-configuration.ts';
+import {eventStream} from "./event-stream.ts";
 
 /*
 Steps
@@ -10,31 +11,33 @@ Steps
 4. recombine new audio file + movie
 the two cutting steps may be able to be run in the same promise
 */
-
 // music track
-const trackCut = await createFFmpegWithDefaultListeners()
-    .input("./fixtures/I LikeIt.flac")
-    // Global encoding options (applied to all outputs).
-    // .audioBitrate("192k")
-    // .videoBitrate("1M")
-    .noInputVideo()
-    // .inputArgs()
-    // Output 1.
-    .output("./fixtures/ILikeIt-cut.mp3")
-    .start("00:00:04.5")
-    .end("00:01:22.0")
-    .encode();
+const trackCut = createFFmpegWithDefaultListeners(false)
+  .input('./fixtures/I LikeIt.flac')
+  // Global encoding options (applied to all outputs).
+  // .audioBitrate("192k")
+  // .videoBitrate("1M")
+  // .noInputVideo()
+  // .inputArgs()
+  // Output 1.
+  .output('./fixtures/ILikeIt-cut.mp3')
+  .start('00:00:04.5')
+  .end('00:01:22.0')
+  .encode();
+// await eventStream(trackCut);
 
 // video
-// const videoCut = await createFFmpegWithDefaultListeners()
-//     .input("./fixtures/Zombieland.mkv")
-//     .output("./fixtures/Zombieland-cut.mkv")
-//     .start("00:04:54.0")
-//     // .end("00:06:12.0")
-//     .end("00:05:00")
-//     .setResolution(Resolution.SD480p)
-//     // Start encoding.
-//     .encode();
+const videoCut = await createFFmpegWithDefaultListeners()
+    .input("./fixtures/Zombieland.mkv")
+    .output("./fixtures/Zombieland-cut.mkv")
+    .start("00:00:05.0")
+    // .end("00:06:12.0")
+    .end("00:00:15.0")
+    .setResolution(Resolution.SD480p)
+    // .inputAudioChannels(3)
+    // Start encoding.
+   // .encode();
+await eventStream(videoCut);
 
 /*
 finding log/param info inside ffmpeg
