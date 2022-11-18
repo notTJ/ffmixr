@@ -1,4 +1,4 @@
-import { FFmpeg, ffmpeg } from '../../deno-fast-forward/mod.ts';
+import { FFmpeg, ffmpeg } from '../../deno-fast-forward/src/mod.ts';
 
 export function createFFmpegWithDefaultListeners(
   showInfo: boolean = false,

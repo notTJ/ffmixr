@@ -1,5 +1,5 @@
 // import { ffmpeg } from "https://raw.githubusercontent.com/notTJ/deno-fast-forward/rescore/mod.ts";
-import { Resolution } from '../../deno-fast-forward/mod.ts';
+import { Resolution } from '../../deno-fast-forward/src/mod.ts';
 import { createFFmpegWithDefaultListeners } from './default-configuration.ts';
 import { eventStream } from './event-stream.ts';
 

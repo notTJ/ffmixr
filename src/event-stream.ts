@@ -4,8 +4,8 @@ import { wait } from 'https://deno.land/x/wait@0.1.12/mod.ts';
 import type {
   EncodingEvent,
   EncodingProcess,
-} from '../../deno-fast-forward/mod.ts';
-import { FFmpeg } from '../../deno-fast-forward/mod.ts';
+} from '../../deno-fast-forward/src/mod.ts';
+import { FFmpeg } from '../../deno-fast-forward/src/mod.ts';
 const spinner = wait({ text: '' });
 
 // this causes problems lol
