@@ -1,8 +1,8 @@
-import { FFmpeg,
-  ffmpeg,
-} from '../../deno-fast-forward/mod.ts';
+import { FFmpeg, ffmpeg } from '../../deno-fast-forward/mod.ts';
 
-export function createFFmpegWithDefaultListeners(showInfo:boolean = false): FFmpeg {
+export function createFFmpegWithDefaultListeners(
+  showInfo: boolean = false,
+): FFmpeg {
   return ffmpeg(undefined, undefined)
     .override(true)
     .addEventListener('start', (event) => console.log('Event: %s', event.type))

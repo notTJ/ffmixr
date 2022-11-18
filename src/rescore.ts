@@ -1,7 +1,7 @@
 // import { ffmpeg } from "https://raw.githubusercontent.com/notTJ/deno-fast-forward/rescore/mod.ts";
 import { Resolution } from '../../deno-fast-forward/mod.ts';
 import { createFFmpegWithDefaultListeners } from './default-configuration.ts';
-import {eventStream} from "./event-stream.ts";
+import { eventStream } from './event-stream.ts';
 
 /*
 Steps
@@ -28,15 +28,15 @@ const trackCut = createFFmpegWithDefaultListeners(false)
 
 // video
 const videoCut = await createFFmpegWithDefaultListeners()
-    .input("./fixtures/Zombieland.mkv")
-    .output("./fixtures/Zombieland-cut.mkv")
-    .start("00:00:05.0")
-    // .end("00:06:12.0")
-    .end("00:00:15.0")
-    .setResolution(Resolution.SD480p)
-    // .inputAudioChannels(3)
-    // Start encoding.
-   // .encode();
+  .input('./fixtures/Zombieland.mkv')
+  .output('./fixtures/Zombieland-cut.mkv')
+  .start('00:00:05.0')
+  // .end("00:06:12.0")
+  .end('00:00:15.0')
+  .setResolution(Resolution.SD480p);
+// .inputAudioChannels(3)
+// Start encoding.
+// .encode();
 await eventStream(videoCut);
 
 /*
