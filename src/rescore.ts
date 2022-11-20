@@ -1,7 +1,6 @@
-// import { ffmpeg } from "https://raw.githubusercontent.com/notTJ/deno-fast-forward/rescore/mod.ts";
-import { Resolution } from '../../deno-fast-forward/src/mod.ts';
 import { createFFmpegWithDefaultListeners } from './default-configuration.ts';
 import { eventStream } from './event-stream.ts';
+import { ChannelSplitFilter } from './channel-split-filter.ts';
 
 /*
 Steps
@@ -12,28 +11,30 @@ Steps
 the two cutting steps may be able to be run in the same promise
 */
 // music track
-const trackCut = createFFmpegWithDefaultListeners(false)
-  .input('./fixtures/I LikeIt.flac')
-  // Global encoding options (applied to all outputs).
-  // .audioBitrate("192k")
-  // .videoBitrate("1M")
-  // .noInputVideo()
-  // .inputArgs()
-  // Output 1.
-  .output('./fixtures/ILikeIt-cut.mp3')
-  .start('00:00:04.5')
-  .end('00:01:22.0')
-  .encode();
+// const trackCut = createFFmpegWithDefaultListeners(false)
+//   .input('./fixtures/I LikeIt.flac')
+//   // Global encoding options (applied to all outputs).
+//   // .audioBitrate("192k")
+//   // .videoBitrate("1M")
+//   // .noInputVideo()
+//   // .inputArgs()
+//   // Output 1.
+//   .output('./fixtures/ILikeIt-cut.mp3')
+//   .start('00:00:04.5')
+//   .end('00:01:22.0')
+//   .encode();
 // await eventStream(trackCut);
 
 // video
+// streams: 0: film, 1: audio 7.1 truehd, 2: ac3 5.1(side),  3: steroeo, 4+ subtitles
 const videoCut = await createFFmpegWithDefaultListeners()
   .input('./fixtures/Zombieland.mkv')
-  .output('./fixtures/Zombieland-cut.mkv')
+  .output('./fixtures/Zombieland-split.mka')
   .start('00:00:05.0')
   // .end("00:06:12.0")
   .end('00:00:15.0')
-  .setResolution(Resolution.SD480p);
+  // .resolution(Resolution.SD480p)
+  .filter(new ChannelSplitFilter().setLayout('7.1').audioOnly());
 // .inputAudioChannels(3)
 // Start encoding.
 // .encode();
