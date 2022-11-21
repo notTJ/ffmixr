@@ -15,7 +15,7 @@
     "jsx": "react",
     "jsxFactory": "React.createElement",
     "jsxFragmentFactory": "React.Fragment",
-    "lib": [ "deno.window" ],
+    "lib": [ "deno.window", "dom.asynciterable" ],
     "noFallthroughCasesInSwitch": false,
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -57,7 +57,7 @@
       "useTabs": false,
       "lineWidth": 80,
       "indentWidth": 2,
-      "singleQuote": true,
+      "singleQuote": false,
       "proseWrap": "preserve"
     }
   },
