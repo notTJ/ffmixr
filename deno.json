@@ -24,6 +24,8 @@
     "noStrictGenericChecks": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
+    "noUncheckedIndexedAccess": false,
+    "reactNamespace": "React",
     "removeComments": false,
     "strict": true,
     "strictBindCallApply": true,
@@ -31,7 +33,8 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "suppressExcessPropertyErrors": false,
-    "suppressImplicitAnyIndexErrors": false
+    "suppressImplicitAnyIndexErrors": false,
+    "useUnknownInCatchVariables": false
   },
   "importMap": "import_map.json",
   "lint": {

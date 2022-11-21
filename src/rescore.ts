@@ -1,7 +1,7 @@
-import { createFFmpegWithDefaultListeners } from './default-configuration.ts';
-import { eventStream } from './event-stream.ts';
-import { ChannelSplitFilter } from './channel-split-filter.ts';
-import { Resolution } from '../../deno-fast-forward/src/mod.ts'
+import { createFFmpegWithDefaultListeners } from "./default-configuration.ts";
+import { eventStream } from "./event-stream.ts";
+import { ChannelSplitFilter } from "./channel-split-filter.ts";
+import { Resolution } from "../../deno-fast-forward/src/mod.ts";
 /*
 Steps
 1. trim video and track
@@ -28,13 +28,13 @@ the two cutting steps may be able to be run in the same promise
 // video
 // streams: 0: film, 1: audio 7.1 truehd, 2: ac3 5.1(side),  3: steroeo, 4+ subtitles
 const videoCut = await createFFmpegWithDefaultListeners()
-  .input('./fixtures/Zombieland.mkv')
-  .output('./fixtures/Zombieland-split.mkv')
-  .start('00:00:05.0')
+  .input("./fixtures/Zombieland.mkv")
+  .output("./fixtures/Zombieland-split.mkv")
+  .start("00:00:05.0")
   // .end("00:06:12.0")
-  .end('00:00:15.0')
+  .end("00:00:15.0")
   .resolution(Resolution.SD480p)
-  .filter(new ChannelSplitFilter().setLayout('7.1').audioOnly());
+  .filter(new ChannelSplitFilter().setLayout("7.1").audioOnly());
 // .inputAudioChannels(3)
 // Start encoding.
 // .encode();

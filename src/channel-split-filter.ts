@@ -1,11 +1,12 @@
 import {
+  ChannelLayout,
+  ChannelLayoutMap,
   // Channel,
   // ChannelUnion,
   ChannelLayoutUnion,
-  ChannelLayout,
-  ChannelLayoutMap,
-  ComplexFilter, FFmpeg
-} from '../../deno-fast-forward/src/mod.ts'
+  ComplexFilter,
+  FFmpeg,
+} from "../../deno-fast-forward/src/mod.ts";
 
 export class ChannelSplitFilter extends ComplexFilter {
   #layout?: ChannelLayoutUnion;
@@ -14,7 +15,7 @@ export class ChannelSplitFilter extends ComplexFilter {
   // options
   #splitAllIntoOutput: boolean = false;
   constructor() {
-    super('channelsplit');
+    super("channelsplit");
   }
 
   // setChannel(channel: Channel | ChannelUnion): this {
@@ -23,7 +24,7 @@ export class ChannelSplitFilter extends ComplexFilter {
   // }
 
   setLayout(channelLayout: ChannelLayoutUnion | ChannelLayout): this {
-    if (this.#layout) throw Error('layout already defined');
+    if (this.#layout) throw Error("layout already defined");
     this.#layout = channelLayout;
     return this;
   }
@@ -33,9 +34,11 @@ export class ChannelSplitFilter extends ComplexFilter {
     return this;
   }
 
-  splitAllChannelsIntoOutputs(channelLayout?: ChannelLayoutUnion | ChannelLayout): this {
-    if (channelLayout && this.#layout) throw Error('layout already defined');
-    if (!channelLayout) throw Error('need layout');
+  splitAllChannelsIntoOutputs(
+    channelLayout?: ChannelLayoutUnion | ChannelLayout,
+  ): this {
+    if (channelLayout && this.#layout) throw Error("layout already defined");
+    if (!channelLayout) throw Error("need layout");
     if (channelLayout) this.#layout = channelLayout;
     this.#splitAllIntoOutput = true;
     return this;
@@ -45,14 +48,13 @@ export class ChannelSplitFilter extends ComplexFilter {
     let filterString = this.filter;
     if (this.#layout) {
       filterString += `=channel_layout=${this.#layout}`;
-      if (this.#splitAllIntoOutput)
-        filterString += `[${ChannelLayoutMap[this.#layout].join('][')}]`;
+      if (this.#splitAllIntoOutput) {
+        filterString += `[${ChannelLayoutMap[this.#layout].join("][")}]`;
+      }
       // else if (this.#channels)
       //   filterString += `:channels=` + this.#channels.map(channel => `${channel}[${channel}]`)
     }
 
-
     return filterString;
   }
-
 }
