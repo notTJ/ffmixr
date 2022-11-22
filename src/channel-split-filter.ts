@@ -38,7 +38,7 @@ export class ChannelSplitFilter extends ComplexFilter {
     channelLayout?: ChannelLayoutUnion | ChannelLayout,
   ): this {
     if (channelLayout && this.#layout) throw Error("layout already defined");
-    if (!channelLayout) throw Error("need layout");
+    if (!channelLayout && !this.#layout) throw Error("need layout");
     if (channelLayout) this.#layout = channelLayout;
     this.#splitAllIntoOutput = true;
     return this;

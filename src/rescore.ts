@@ -34,10 +34,16 @@ const videoCut = await createFFmpegWithDefaultListeners()
   // .end("00:06:12.0")
   .end("00:00:15.0")
   .resolution(Resolution.SD480p)
-  .filter(new ChannelSplitFilter().setLayout("7.1").audioOnly());
+  .logLevel("fatal")
+  .noVideo()
+  .noSubtitles()
+  // .filter(new ChannelSplitFilter().setLayout("7.1").audioOnly())
+  .filter(
+    new ChannelSplitFilter().setLayout("7.1").splitAllChannelsIntoOutputs(),
+  );
 // .inputAudioChannels(3)
 // Start encoding.
-// .encode();
+// await videoCut.encode();
 await eventStream(videoCut);
 
 /*
