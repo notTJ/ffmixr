@@ -1,7 +1,9 @@
 import { createFFmpegWithDefaultListeners } from "./default-configuration.ts";
 import { eventStream } from "./event-stream.ts";
-import { ChannelSplitFilter } from "../../deno-fast-forward/src/filters/channel-split/channel-split-filter.ts";
+import { ChannelSplitFilter } from "./filters/channel-split/channel-split-filter.ts";
 import { Resolution } from "../../deno-fast-forward/src/mod.ts";
+import {ChannelLayoutMap} from "./filters/channel-split/channel-layout-map.ts";
+import {DefaultChannelOutputName} from "./filters/channel-split/channel.ts";
 /*
 Steps
 1. trim video and track
@@ -31,25 +33,40 @@ const videoCut = await createFFmpegWithDefaultListeners()
   .cwd("./fixtures/")
   .input("./Zombieland.mkv")
   // .output("./fixtures/Zombieland-split.mkv")
-  .start("00:00:05.0")
+  .seek("00:00:05.0")
   // .end("00:06:12.0")
-  .end("00:00:15.0")
-  // .resolution(Resolution.SD480p)
+  .to("00:00:15.0")
+  .resolution(Resolution.SD480p)
   .logLevel("error")
   .noVideo()
   .noSubtitles()
   .format("ac3")
-  // .filter(new ChannelSplitFilter().setLayout("7.1").audioOnly())
-  .filter(
+  .complexFilter(
     new ChannelSplitFilter()
-      .splitAllChannelsIntoOutputs("7.1")
-      .setMappedOutputFileExt(".ac3")
-      .buildFilter(),
-  );
+      .setLayout("7.1")
+      .setChannels(ChannelLayoutMap["7.1"])
+      .build()
+  ).mappedOutputs(ChannelLayoutMap["7.1"].map((channel) => {
+    return {
+      identifier: `[${channel}]`,
+      filename: `${DefaultChannelOutputName[channel]}.ac3`,
+    }
+  }))
 // .inputAudioChannels(3)
 // Start encoding.
 // await videoCut.encode();
 await eventStream(videoCut);
+
+
+// put into deno-ff tests
+// .filter(
+//   new ChannelSplitFilter()
+//     .splitAllChannelsIntoOutputs("7.1")
+//     .setMappedOutputFileExt(".ac3")
+//     .buildFilter(),
+// );
+// ffmpeg -hide_banner -ss 00:00:05.0 -to 00:00:15.0 -i ./Zombieland.mkv -loglevel error -y -vn -sn -filter_complex channelsplit=channel_layout=7.1[FL][FR][FC][LFE][BL][BR][SL][SR] -map [FL] front_left.ac3 -map [FR] front_right.ac3 -map [FC] front_center.ac3 -map [LFE] low_frequency.ac3 -map [BL] back_left.ac3 -map [BR] back_right.ac3 -map [SL] side_left.ac3 -map [SR] side_right.ac3
+
 
 /*
 finding log/param info inside ffmpeg
