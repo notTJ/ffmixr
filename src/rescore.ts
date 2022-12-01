@@ -37,7 +37,7 @@ const videoCut = await createFFmpegWithDefaultListeners()
       .toString(),
   ).mappedOutputs({ filename: "zombieland-fc.ac3", identifier: "[FC]" });
 
-await eventStream(trackCut)
+await eventStream(trackCut);
 await eventStream(videoCut);
 
 // put the video + audio together
