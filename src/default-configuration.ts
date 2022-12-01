@@ -5,6 +5,7 @@ export function createFFmpegWithDefaultListeners(
 ): FFmpeg {
   return ffmpeg(undefined, undefined)
     .override(true)
+    .cwd("./fixtures")
     .addEventListener("start", (event) => console.log("Event: %s", event.type))
     .addEventListener("info", (event) => {
       console.log("Event: %s", event.type);
