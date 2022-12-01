@@ -14,9 +14,9 @@ export function createFFmpegWithDefaultListeners(
       "progress",
       (event) => console.log("Event: %s", event.type, `${event.progress}%`),
     )
-    .addEventListener("end", (event) => console.log("Event: %s", event.type))
-    .addEventListener(
-      "error",
-      (error) => console.log("Error event: %s", error.error),
-    );
+    .addEventListener("end", (event) => console.log("Event: %s", event.type));
+  // .addEventListener(
+  //   "error",
+  //   (error) => console.log("Error event: %s", error.error),
+  // );
 }
