@@ -18,17 +18,19 @@ the two cutting steps may be able to be run in the same promise
 // music track
 const trackCut = createFFmpegWithDefaultListeners(false)
   .input("./fixtures/I Like It.flac")
+  .seek("00:00:04.5")
+  .to("00:01:22.0")
+  .codec("ac3")
   // Global encoding options (applied to all outputs).
   // .audioBitrate("192k")
   // .videoBitrate("1M")
   // .noInputVideo()
   // .inputArgs()
   // Output 1.
-  .output("./fixtures/I Like It-cut.mp3")
-  .seek("00:00:04.5")
-  .to("00:01:22.0");
+  .output("./fixtures/I Like It-cut.ac3");
+
 // .encode();
-await eventStream(trackCut);
+// await eventStream(trackCut);
 
 // video
 // streams: 0: film, 1: audio 7.1 truehd, 2: ac3 5.1(side),  3: steroeo, 4+ subtitles
@@ -47,23 +49,27 @@ const videoCut = await createFFmpegWithDefaultListeners()
   .complexFilter(
     new ChannelsplitFilter()
       .setLayout("7.1")
-      .referenceAllChannels()
-      // .setChannels(Channel.frontCenter)
+      // .referenceAllChannels()
+      .setChannels(Channel.frontCenter)
       .toString(),
-  ) //.mappedOutputs({ filename: "zfc.mkv", identifier: "[FC]"})
+  ).mappedOutputs({ filename: "zombieland-fc.ac3", identifier: "[FC]"})
   // separate audio track into each channel
-  .mappedOutputs(...ChannelLayoutMap["7.1"].map((channel) => {
-    return {
-      identifier: `[${channel}]`,
-      filename: `${DefaultChannelOutputName[channel]}.ac3`,
-    } as MappedOutput;
-  }));
+  // .mappedOutputs(...ChannelLayoutMap["7.1"].map((channel) => {
+  //   return {
+  //     identifier: `[${channel}]`,
+  //     filename: `${DefaultChannelOutputName[channel]}.ac3`,
+  //   } as MappedOutput;
+  // }));
 // .inputAudioChannels(3)
 // Start encoding.
 // await videoCut.encode();
 await eventStream(videoCut);
 
 // put the video + audio together
+const amix = await createFFmpegWithDefaultListeners()
+  .cwd("./fixtures")
+  .input("./I Like It-cut.ac3")
+
 
 // ffmpeg -hide_banner -ss 00:00:05.0 -to 00:00:15.0 -i ./Zombieland.mkv -loglevel error -y -vn -sn -filter_complex channelsplit=channel_layout=7.1[FL][FR][FC][LFE][BL][BR][SL][SR] -map [FL] front_left.ac3 -map [FR] front_right.ac3 -map [FC] front_center.ac3 -map [LFE] low_frequency.ac3 -map [BL] back_left.ac3 -map [BR] back_right.ac3 -map [SL] side_left.ac3 -map [SR] side_right.ac3
 
