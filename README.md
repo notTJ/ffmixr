@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.com/Nero89/ffmixr.git
+git remote add origin https://gitlab.com/----/ffmixr.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/Nero89/ffmixr/-/settings/integrations)
+- [ ] [Set up project integrations](https://gitlab.com/---/ffmixr/-/settings/integrations)
 
 ## Collaborate with your team
 
